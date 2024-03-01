@@ -3,15 +3,15 @@ return {
         "nvim-treesitter/nvim-treesitter",
         lazy = false,
         build = ":TSUpdate",
-            config = function ()
-                require("nvim-treesitter.configs").setup {
-                    highlight = {
-                        auto_install = true,
-                        enable = true,
-                        additional_vim_regex_highlighting = false,
-                    }
+        config = function()
+            require("nvim-treesitter.configs").setup {
+                highlight = {
+                    auto_install = true,
+                    enable = true,
+                    additional_vim_regex_highlighting = false,
                 }
-            end
+            }
+        end
 
     },
     {
@@ -27,15 +27,28 @@ return {
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-nvim-lua',
 
-            'L3MON4D3/LuaSnip',
-            'rafamadriz/friendly-snippets',
+            {
+                {
+                    "L3MON4D3/LuaSnip",
+                    -- follow latest release.
+                    version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+                    -- install jsregexp (optional!).
+                    build = "make install_jsregexp",
+                    dependencies = {
+                        'rafamadriz/friendly-snippets',
+                    },
+                    config = function()
+                        require("luasnip.loaders.from_vscode").lazy_load()
+                    end
+                }
+            },
         },
         lazy = false,
         keys = {
             { "gd",          function() vim.lsp.buf.definition() end },
             { "K",           function() vim.lsp.buf.hover() end },
             { "<leader>vws", function() vim.lsp.buf.workspace_symbol() end },
-            { "<leader>vd",  function() vim.diagnostic.open_float() end },
+            { "gl",          function() vim.diagnostic.open_float() end },
             { "[d",          function() vim.diagnostic.goto_next() end },
             { "]d",          function() vim.diagnostic.goto_prev() end },
             { "<leader>vca", function() vim.lsp.buf.code_action() end },
