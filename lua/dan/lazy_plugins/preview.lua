@@ -16,6 +16,6 @@ return {
                 renderer = { type = 'command', opts = { cmd = { 'zathura' } } },
             },
         },
-        render_on_write = false,
+        render_on_write = true,
     },
 }
