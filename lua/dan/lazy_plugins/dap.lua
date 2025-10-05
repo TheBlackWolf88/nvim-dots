@@ -5,7 +5,7 @@ return {
         "rcarriga/nvim-dap-ui",
         "theHamsta/nvim-dap-virtual-text",
         "nvim-neotest/nvim-nio",
-        "williamboman/mason.nvim",
+        'nicholasmata/nvim-dap-cs',
     },
 
     config = function()
@@ -15,14 +15,17 @@ return {
         require("dapui").setup()
         require("dap-go").setup()
         require("nvim-dap-virtual-text").setup()
+        require('dap-cs').setup()
 
         local php_debugger = os.getenv("HOME") .. "/vscode-php-debug/out/phpDebug.js"
         if php_debugger ~= "" then
-            dap.adapters.xdebug_task = {
-                type = "executable",
-                command = "node",
-                args = { php_debugger },
-            }
+            dap.adapters.xdebug_task = function()
+                return {
+                    type = "executable",
+                    command = "node",
+                    args = { php_debugger },
+                }
+            end
 
             dap.configurations.php = {
                 {
